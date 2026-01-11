@@ -1,0 +1,39 @@
+name: Build Linux ARM64
+
+on:
+  push:
+    branches:
+      - publish
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.0.x'
+        
+    - name: Restore dependencies
+      run: dotnet restore FileLimitService/FileLimitService.csproj
+      
+    - name: Build and publish for Linux ARM64
+      run: |
+        dotnet publish FileLimitService/FileLimitService.csproj \
+          --configuration Release \
+          --runtime linux-arm64 \
+          --self-contained true \
+          --output ./publish-arm64 \
+          -p:PublishSingleFile=true \
+          -p:PublishTrimmed=true
+          
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: FileLimitService-linux-arm64
+        path: ./publish-arm64/FileLimitService
+        if-no-files-found: error
