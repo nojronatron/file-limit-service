@@ -134,19 +134,19 @@ public class FileCleanupServiceTests : IDisposable
     private List<string> CreateTestFiles(int count)
     {
         var files = new List<string>();
+        var baseTime = DateTime.Now;
+        
         for (int i = 0; i < count; i++)
         {
             string filePath = Path.Combine(_testDirectory, $"testfile_{i:D3}.txt");
             File.WriteAllText(filePath, $"Test content {i}");
             
-            // Set different timestamps to ensure proper ordering
+            // Set precise timestamps with millisecond granularity to ensure proper ordering
+            // Each file gets a timestamp 1 millisecond apart, starting from oldest
             var fileInfo = new FileInfo(filePath);
-            fileInfo.LastWriteTime = DateTime.Now.AddMinutes(-count + i);
+            fileInfo.LastWriteTime = baseTime.AddMilliseconds(-count + i);
             
             files.Add(filePath);
-            
-            // Small delay to ensure distinct timestamps
-            Thread.Sleep(10);
         }
         return files;
     }
