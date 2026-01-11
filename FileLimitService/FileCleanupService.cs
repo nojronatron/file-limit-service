@@ -14,6 +14,18 @@ public class FileCleanupService
         _logger = logger;
     }
 
+    private static string FormatAge(TimeSpan age)
+    {
+        if (age.TotalDays >= 1)
+            return $"{age.TotalDays:F2} days";
+        else if (age.TotalHours >= 1)
+            return $"{age.TotalHours:F2} hours";
+        else if (age.TotalMinutes >= 1)
+            return $"{age.TotalMinutes:F2} minutes";
+        else
+            return $"{age.TotalSeconds:F2} seconds";
+    }
+
     public async Task CleanupDirectoryAsync(string targetDirectory, int maxFileCount)
     {
         await _logger.LogAsync($"Starting cleanup - Target Directory: {targetDirectory}, Max File Count: {maxFileCount}");
@@ -40,8 +52,8 @@ public class FileCleanupService
         {
             var oldestAge = DateTime.Now - oldestFile.LastWriteTime;
             var newestAge = DateTime.Now - newestFile.LastWriteTime;
-            await _logger.LogAsync($"Oldest file age: {oldestAge.TotalDays:F2} days");
-            await _logger.LogAsync($"Newest file age: {newestAge.TotalDays:F2} days");
+            await _logger.LogAsync($"Oldest file age: {FormatAge(oldestAge)}");
+            await _logger.LogAsync($"Newest file age: {FormatAge(newestAge)}");
         }
 
         // Only delete files if count exceeds threshold
@@ -64,9 +76,10 @@ public class FileCleanupService
         {
             try
             {
+                var fileAge = DateTime.Now - sortedFiles[i].LastWriteTime;
                 sortedFiles[i].Delete();
                 deletedCount++;
-                await _logger.LogAsync($"Deleted: {sortedFiles[i].Name} (Age: {(DateTime.Now - sortedFiles[i].LastWriteTime).TotalDays:F2} days)");
+                await _logger.LogAsync($"Deleted: {sortedFiles[i].Name} (Age: {FormatAge(fileAge)})");
             }
             catch (Exception ex)
             {
