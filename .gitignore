@@ -416,3 +416,9 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Build/Publish outputs
+publish/
+
+# Manual testing directories
+target-dir/
