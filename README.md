@@ -56,6 +56,26 @@ dotnet publish FileLimitService/FileLimitService.csproj -c Release -r win-x64 --
 dotnet publish FileLimitService/FileLimitService.csproj -c Release -r linux-arm64 --self-contained false -o publish/linux-arm64
 ```
 
+### Installing from GitHub Releases
+
+To download and use pre-built binaries from GitHub Releases:
+
+```bash
+# Download the latest release for Linux ARM64
+wget https://github.com/nojronatron/file-limit-service/releases/latest/download/FileLimitService-linux-arm64.zip
+
+# Extract the archive
+unzip FileLimitService-linux-arm64.zip -d file-limit-service/
+
+# Make the binary executable
+chmod +x file-limit-service/FileLimitService
+
+# Run the service
+./file-limit-service/FileLimitService /path/to/target 100
+```
+
+For automated deployment, consider setting up a [cron job](#example-cron-job-linux) to run the service on a schedule.
+
 ## Running Tests
 
 ```bash
