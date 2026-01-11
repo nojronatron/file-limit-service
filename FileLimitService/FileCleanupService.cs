@@ -64,7 +64,7 @@ public class FileCleanupService
         {
             try
             {
-                await Task.Run(() => sortedFiles[i].Delete());
+                sortedFiles[i].Delete();
                 deletedCount++;
                 await _logger.LogAsync($"Deleted: {sortedFiles[i].Name} (Age: {(DateTime.Now - sortedFiles[i].LastWriteTime).TotalDays:F2} days)");
             }
