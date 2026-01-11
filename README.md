@@ -14,13 +14,14 @@ A .NET 10 C# console application that manages file count in a directory by remov
 ## Usage
 
 ```bash
-FileLimitService <target-directory> <max-file-count>
+FileLimitService <target-directory> <max-file-count> [noui]
 ```
 
 ### Arguments
 
 - `target-directory`: Path to the directory to monitor and clean
 - `max-file-count`: Maximum number of files to keep in the directory (non-negative integer)
+- `noui`: (Optional) Suppress all console output while still logging to file
 
 ### Examples
 
@@ -30,6 +31,9 @@ FileLimitService /var/log/myapp 100
 
 # On Windows, keep 50 files in a backup directory
 FileLimitService "C:\Backups\Daily" 50
+
+# Run silently without console output (useful for automated jobs)
+FileLimitService /var/log/myapp 100 noui
 ```
 
 ## Building
@@ -37,7 +41,7 @@ FileLimitService "C:\Backups\Daily" 50
 ### Build for all platforms
 
 ```bash
-dotnet build FileLimitService.sln
+dotnet build FileLimitService.slnx
 ```
 
 ### Publish for Windows (x64)
@@ -90,8 +94,8 @@ The service can be automated using:
 ### Example Cron Job (Linux)
 
 ```cron
-# Run every day at 2 AM to keep max 1000 files
-0 2 * * * /path/to/FileLimitService /var/log/myapp 1000
+# Run every day at 2 AM to keep max 1000 files (silent mode)
+0 2 * * * /path/to/FileLimitService /var/log/myapp 1000 noui
 ```
 
 ## Requirements
