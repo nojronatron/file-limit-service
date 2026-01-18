@@ -1,0 +1,13 @@
+{
+  // Configuration for FileLimitService
+  // Documentation: https://github.com/nojronatron/file-limit-service
+  
+  // Target directory to monitor and clean
+  "targetDirectory": "/var/log/myapp",
+  
+  // Maximum number of files to keep (oldest files deleted first)
+  "maxFileCount": 100,
+  
+  // Enable logging to FileLimitService log directory
+  "enableLogging": true
+}
