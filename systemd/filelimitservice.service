@@ -1,0 +1,15 @@
+[Unit]
+Description=File Limit Service - Cleanup old files in monitored directory
+Documentation=https://github.com/nojronatron/file-limit-service
+After=local-fs.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/usr/local/bin/FileLimitService --config /etc/FileLimitService/config.json
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=filelimitservice
+
+[Install]
+WantedBy=multi-user.target
