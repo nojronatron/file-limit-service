@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace FileLimitService;
 
@@ -7,6 +8,15 @@ public class Configuration
     public string TargetDirectory { get; set; } = string.Empty;
     public int MaxFileCount { get; set; }
     public bool EnableLogging { get; set; } = true;
+}
+
+[JsonSerializable(typeof(Configuration))]
+[JsonSourceGenerationOptions(
+    PropertyNameCaseInsensitive = true,
+    AllowTrailingCommas = true,
+    ReadCommentHandling = JsonCommentHandling.Skip)]
+internal partial class ConfigurationJsonContext : JsonSerializerContext
+{
 }
 
 public class ConfigurationService
@@ -19,12 +29,7 @@ public class ConfigurationService
         }
 
         string json = File.ReadAllText(configPath);
-        var config = JsonSerializer.Deserialize<Configuration>(json, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,
-            AllowTrailingCommas = true,
-            ReadCommentHandling = JsonCommentHandling.Skip
-        });
+        var config = JsonSerializer.Deserialize(json, ConfigurationJsonContext.Default.Configuration);
 
         if (config == null)
         {

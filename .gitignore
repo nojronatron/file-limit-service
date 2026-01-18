@@ -419,6 +419,7 @@ FodyWeavers.xsd
 
 # Build/Publish outputs
 publish/
+publish-test-*/
 
 # Manual testing directories
 target-dir/
