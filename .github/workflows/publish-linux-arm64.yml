@@ -30,10 +30,16 @@ jobs:
           --output ./publish-arm64 \
           -p:PublishSingleFile=true \
           -p:PublishTrimmed=true
+    
+    - name: Copy systemd files and install script
+      run: |
+        cp -r systemd ./publish-arm64/
+        cp install-system.sh ./publish-arm64/
+        chmod +x ./publish-arm64/install-system.sh
           
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: FileLimitService-linux-arm64
-        path: ./publish-arm64/FileLimitService
+        path: ./publish-arm64/
         if-no-files-found: error
