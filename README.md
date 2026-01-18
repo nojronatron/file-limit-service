@@ -91,14 +91,19 @@ To download and use pre-built binaries from GitHub Releases:
 wget https://github.com/nojronatron/file-limit-service/releases/latest/download/FileLimitService-linux-arm64.zip
 
 # Extract the archive
-unzip FileLimitService-linux-arm64.zip -d file-limit-service/
+unzip FileLimitService-linux-arm64.zip
 
 # Make the binary executable
-chmod +x file-limit-service/FileLimitService
+chmod +x FileLimitService
 
 # Run the service
-./file-limit-service/FileLimitService /path/to/target 100
+./FileLimitService /path/to/target 100
 ```
+
+The release archive includes:
+- `FileLimitService` - The main executable
+- `systemd/` - Systemd service and timer unit files
+- `install-system.sh` - System-wide installation script
 
 For automated deployment, consider setting up a [systemd service](#systemd-service-linux), [cron job](#example-cron-job-linux), or Windows Task Scheduler to run the service on a schedule.
 
@@ -111,8 +116,7 @@ FileLimitService can run as a systemd service with automatic timer-based executi
 1. **Download and extract** the latest release:
    ```bash
    wget https://github.com/nojronatron/file-limit-service/releases/latest/download/FileLimitService-linux-arm64.zip
-   unzip FileLimitService-linux-arm64.zip -d file-limit-service/
-   cd file-limit-service/
+   unzip FileLimitService-linux-arm64.zip
    ```
 
 2. **Run the installation script**:
