@@ -33,6 +33,14 @@ jobs:
     
     - name: Copy systemd files and install script
       run: |
+        if [ ! -d "systemd" ]; then
+          echo "Error: systemd directory not found"
+          exit 1
+        fi
+        if [ ! -f "install-system.sh" ]; then
+          echo "Error: install-system.sh not found"
+          exit 1
+        fi
         cp -r systemd ./publish-arm64/
         cp install-system.sh ./publish-arm64/
         chmod +x ./publish-arm64/install-system.sh
